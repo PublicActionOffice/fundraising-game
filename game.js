@@ -304,6 +304,11 @@
 		b.addEventListener('click', function () { b.disabled = true; fn(); });
 		return b;
 	}
+	function art(name, alt) {
+		var f = h('figure', 'art');
+		f.innerHTML = '<img src="img/' + name + '.webp" alt="' + esc(alt || '') + '" width="960" height="640" loading="lazy" decoding="async" onerror="this.parentNode.remove()">';
+		return f;
+	}
 	function heading(main, kicker, title) {
 		main.appendChild(h('p', 'kicker', kicker));
 		main.appendChild(h('h2', 'title', title));
@@ -340,7 +345,7 @@
 		main.appendChild(talk('date', 'はじめまして、編集長の伊達です。今日はあなたが、プロジェクトの<strong>実行者</strong>。実現したいことを一つ選んでください。'));
 		var list = h('div', 'projects');
 		PROJECTS.forEach(function (p) {
-			var b = h('button', 'project', '<span class="project__icon" aria-hidden="true">' + p.icon + '</span><span class="project__name">' + p.name + '</span><span class="project__intro">' + p.intro + '</span><span class="project__cost">必要な経費：' + man(p.cost) + '</span>');
+			var b = h('button', 'project', '<img class="project__img" src="img/' + p.id + '.webp" alt="" width="960" height="640" loading="lazy" decoding="async"><span class="project__icon" aria-hidden="true">' + p.icon + '</span><span class="project__name">' + p.name + '</span><span class="project__intro">' + p.intro + '</span><span class="project__cost">必要な経費：' + man(p.cost) + '</span>');
 			b.type = 'button';
 			b.addEventListener('click', function () { reset(p); methodScreen(0, shuffle(METHOD_QS).slice(0, 3), 0); });
 			list.appendChild(b);
@@ -352,6 +357,7 @@
 	function methodScreen(i, qs, correct) {
 		var main = frame(0);
 		heading(main, '① 手段を選ぶ　' + (i + 1) + ' / 3', 'この場合、どの集め方が合う？');
+		if (i === 0) main.appendChild(art('tools', ''));
 		if (i === 0) main.appendChild(talk('aoba', '調査担当の青葉です。お金の集め方は一つじゃありません。まずは<strong>目的に合った道具</strong>を選ぶ練習から。'));
 		var q = qs[i];
 		main.appendChild(h('div', 'case', '<span class="case__tag">ケース' + (i + 1) + '</span>' + q.q));
@@ -370,6 +376,7 @@
 	function methodWrap(c) {
 		var main = frame(0);
 		heading(main, '① 手段を選ぶ', '3問中 ' + c + '問 正解！');
+		main.appendChild(art(S.p.id, ''));
 		main.appendChild(talk('aoba', '寄付、クラファン、助成金。それぞれ得意なことが違います。組み合わせて使う団体も多いんですよ。<br>今回のあなたのプロジェクト「' + esc(S.p.name) + '」は、多くの人に想いを知ってもらいながら設備のお金を集めたいので、<strong>クラウドファンディング</strong>で挑戦しましょう！'));
 		main.appendChild(nextBtn(titleSelect));
 	}
@@ -515,6 +522,7 @@
 	function launchGo() {
 		var main = frame(5);
 		heading(main, '公開！', '30日間のクラウドファンディング、スタート！');
+		main.appendChild(art('launch', ''));
 		main.appendChild(talk('date', '目標は <strong>' + man(S.goal) + '</strong>（' + (S.plan === 'aon' ? 'All-or-Nothing' : 'All-in') + '）。途中で何度か、あなたの判断が必要になります。さあ、行きましょう！'));
 		main.appendChild(nextBtn(function () { campaign(0); }, '公開する'));
 	}
@@ -743,6 +751,7 @@
 		var main = frame(5);
 		heading(main, '結果発表', success ? '🎉 目標達成！ プロジェクト成立！' : (S.plan === 'aon' ? '目標に届かず、今回は不成立…' : '目標には届かなかったけれど…'));
 		var pct = Math.floor(S.raised / S.goal * 100);
+		main.appendChild(art(success ? 'success' : p.id, ''));
 		main.appendChild(h('div', 'result',
 			'<div class="result__big"><span>集まった金額</span><b>' + yen(S.raised) + '</b><small>達成率 ' + pct + '%　支援者 ' + S.supporters + '人</small></div>' +
 			'<table class="sheet__t"><caption>お金の行き先</caption>' +
@@ -767,6 +776,7 @@
 		var p = S.p;
 		var main = frame(6);
 		heading(main, '⑦ お礼と報告', S.received ? '終了後、支援者にどう向き合う？' : '終了後、応援してくれた人にどうする？');
+		main.appendChild(art('thanks', ''));
 		main.appendChild(talk('jozenji', 'クラファンは、終わってからが本番とも言われます。支援してくれた人は、あなたの活動の<strong>仲間</strong>。次につながる向き合い方を選んでください。'));
 		var choices = S.received ? [
 			{ label: S.success ? 'お礼を伝え、リターンを約束どおり届ける。完成後は「' + p.report + '」を写真つきで活動報告する' :
@@ -822,6 +832,7 @@
 		});
 		main.appendChild(h('h3', 'sub', '今回の学び'));
 		main.appendChild(ul);
+		main.appendChild(art('next', ''));
 		main.appendChild(talk('date', (S.success ?
 			'おめでとう！ でも、いちばんすごいのは、<strong>「やってみたい」を形にしようと一歩踏み出したこと</strong>です。' : S.received ?
 			'目標には届かなかったけれど、<strong>' + S.supporters + '人</strong>の応援で、プロジェクトは一歩前に進みました。足りない分は、助成金や継続寄付など別の方法と組み合わせる道もあります。' :

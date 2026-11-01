@@ -25,7 +25,7 @@
 ゲームは iframe の中から親ページへ自分の高さを postMessage で送ります（送るのは高さと「先頭へ」の合図だけ）。親ページに下のスクリプトを置くと、iframe の高さが中身に合わせて自動で変わり、画面が切り替わったときにゲームの先頭が見える位置へスクロールします。スクリプトがない場合は、高さ 760px の中でスクロールして遊べます。
 
 ```html
-<iframe id="frc-game" src="https://publicactionoffice.github.io/fundraising-game/?v=4" width="100%" height="760" style="border:0;max-width:100%;border-radius:14px;display:block" title="ファンドレイジング・チャレンジ（ゲーム）"></iframe>
+<iframe id="frc-game" src="https://publicactionoffice.github.io/fundraising-game/?v=5" width="100%" height="760" style="border:0;max-width:100%;border-radius:14px;display:block" title="ファンドレイジング・チャレンジ（ゲーム）"></iframe>
 <script>
 (function () {
 	/* ゲームから届く高さに合わせて iframe の高さを変える。WordPress がスクリプト内の & や < を変換してしまうため、それらを使わずに書いている */
