@@ -322,17 +322,18 @@
 		var t = h('div', 'cover');
 		t.innerHTML =
 			'<div class="cover__img"><img src="img/title.jpg" alt="" width="1200" height="800" onerror="this.parentNode.classList.add(\'noimg\')"></div>' +
-			'<p class="cover__kicker">fundraising.jp オリジナルゲーム</p>' +
+			'<p class="cover__kicker">ファンドレイジングジャパン オリジナルゲーム</p>' +
 			'<h1 class="cover__title">ファンドレイジング<br>チャレンジ</h1>' +
 			'<p class="cover__lead">あなたの「やりたい」を、みんなの応援で実現する30日間。<br>AI編集スタッフと一緒に、はじめてのクラウドファンディングに挑戦しよう。</p>' +
 			'<ul class="cover__learn"><li>お金の集め方の使い分け</li><li>想いが伝わるストーリー</li><li>目標金額とリターン設計</li><li>初動と、期間中の発信</li><li>お礼と活動報告</li></ul>' +
 			'<p class="cover__time">所要時間：約5分　' + (best ? '／ あなたのベスト：' + esc(best) + '点' : '') + '</p>';
-		var go = nextBtn(projectScreen, 'はじめる');
-		go.classList.add('btn--big');
-		t.appendChild(go);
+		t.appendChild(h('p', 'cover__guide', '私たちが案内いたします'));
 		var team = h('div', 'cover__team');
 		Object.keys(STAFF).forEach(function (k) { team.insertAdjacentHTML('beforeend', '<figure><img src="' + STAFF[k].img + '" alt="" width="56" height="56"><figcaption>' + STAFF[k].name.split(' ')[0] + '<small>' + STAFF[k].role + '</small></figcaption></figure>'); });
 		t.appendChild(team);
+		var go = nextBtn(projectScreen, 'はじめる');
+		go.classList.add('btn--big');
+		t.appendChild(go);
 		app.appendChild(t);
 		top();
 	}
@@ -848,7 +849,7 @@
 		var other = nextBtn(projectScreen, '別のプロジェクトに挑戦');
 		other.classList.remove('btn--main'); other.classList.add('btn--sub');
 		acts.appendChild(again); acts.appendChild(other);
-		acts.insertAdjacentHTML('beforeend', '<a class="btn btn--link" href="https://fundraising.jp/" target="_top">fundraising.jp で、実際のプロジェクトを見てみる →</a>');
+		acts.insertAdjacentHTML('beforeend', '<a class="btn btn--link" href="https://fundraising.jp/" target="_top">ファンドレイジングジャパンで、実際のプロジェクトを見てみる →</a>');
 		main.appendChild(acts);
 		main.appendChild(h('p', 'disclaimer', 'このゲームはフィクションです。手数料・リターン費用・支援の集まり方は、学びのための仮の設定です。実際の手数料や方式の条件はサービスやプランによって異なるため、必ず各サービスの最新情報をご確認ください。'));
 		if (rank[0] === 'S' || rank[0] === 'A') setTimeout(confetti, 300);
