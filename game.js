@@ -125,7 +125,27 @@
 	function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
 	function gpts(g) { return g === 'best' ? 2 : g === 'good' ? 1 : 0; }
 	function addPts(key, pts, max) { S.pts.push({ key: key, pts: pts, max: max }); }
-	function top() { try { window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); } catch (e) { window.scrollTo(0, 0); } }
+	function top() {
+		try { window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); } catch (e) { window.scrollTo(0, 0); }
+		toParent({ type: 'frc-top' });
+	}
+
+	/* iframe 埋め込み時：親ページに高さを伝える（高さ以外の情報は送らない） */
+	var embedded = window.parent !== window;
+	function toParent(msg) { if (embedded) { try { window.parent.postMessage(msg, '*'); } catch (e) {} } }
+	var lastH = 0;
+	function sendHeight() {
+		var hgt = Math.ceil(app.getBoundingClientRect().height + app.offsetTop);
+		if (Math.abs(hgt - lastH) < 2) return;
+		lastH = hgt;
+		toParent({ type: 'frc-height', height: hgt });
+	}
+	if (embedded) {
+		if (window.ResizeObserver) new ResizeObserver(sendHeight).observe(app);
+		window.addEventListener('load', sendHeight);
+		setInterval(sendHeight, 400); // ResizeObserver が動かない環境の保険
+		window.addEventListener('resize', function () { lastH = 0; sendHeight(); });
+	}
 	function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
 
 	var STAT_LABEL = { kyo: '共感', nin: '認知', shin: '信頼' };
