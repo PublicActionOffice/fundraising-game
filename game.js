@@ -135,7 +135,9 @@
 	function toParent(msg) { if (embedded) { try { window.parent.postMessage(msg, '*'); } catch (e) {} } }
 	var lastH = 0;
 	function sendHeight() {
-		var hgt = Math.ceil(app.getBoundingClientRect().height + app.offsetTop);
+		var de = document.documentElement;
+		var hgt = Math.ceil(app.getBoundingClientRect().height + app.offsetTop) + 2;
+		if (de.scrollHeight > de.clientHeight) hgt = Math.max(hgt, de.scrollHeight + 2); // はみ出している分も含める
 		if (Math.abs(hgt - lastH) < 2) return;
 		lastH = hgt;
 		toParent({ type: 'frc-height', height: hgt });

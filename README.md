@@ -25,19 +25,30 @@
 ゲームは iframe の中から親ページへ自分の高さを postMessage で送ります（送るのは高さと「先頭へ」の合図だけ）。親ページに下のスクリプトを置くと、iframe の高さが中身に合わせて自動で変わり、画面が切り替わったときにゲームの先頭が見える位置へスクロールします。スクリプトがない場合は、高さ 760px の中でスクロールして遊べます。
 
 ```html
-<iframe id="frc-game" src="https://publicactionoffice.github.io/fundraising-game/" width="100%" height="760" style="border:0;max-width:100%;border-radius:14px;display:block" title="ファンドレイジング・チャレンジ（ゲーム）"></iframe>
+<iframe id="frc-game" src="https://publicactionoffice.github.io/fundraising-game/?v=4" width="100%" height="760" style="border:0;max-width:100%;border-radius:14px;display:block" title="ファンドレイジング・チャレンジ（ゲーム）"></iframe>
 <script>
 (function () {
+	/* ゲームから届く高さに合わせて iframe の高さを変える。WordPress がスクリプト内の & や < を変換してしまうため、それらを使わずに書いている */
 	var f = document.getElementById('frc-game');
 	if (!f) return;
 	window.addEventListener('message', function (e) {
-		if (e.source !== f.contentWindow || e.origin !== 'https://publicactionoffice.github.io' || !e.data || typeof e.data !== 'object') return;
-		if (e.data.type === 'frc-height') {
-			var h = parseInt(e.data.height, 10);
-			if (h > 200 && h < 20000) f.style.height = h + 'px';
-		} else if (e.data.type === 'frc-top') {
+		if (e.source !== f.contentWindow) return;
+		if (e.origin !== 'https://publicactionoffice.github.io') return;
+		var d = e.data;
+		if (!d || typeof d !== 'object') return;
+		if (d.type === 'frc-height') {
+			var h = parseInt(d.height, 10);
+			if (isNaN(h) || h > 20000 || 200 > h) return;
+			f.style.height = h + 'px';
+		} else if (d.type === 'frc-top') {
+			var hd = document.querySelector('header'), off = 12;
+			if (hd) {
+				var p = getComputedStyle(hd).position;
+				if (p === 'sticky' || p === 'fixed') off += Math.max(0, hd.getBoundingClientRect().bottom);
+			}
 			var top = f.getBoundingClientRect().top;
-			if (top < 0) window.scrollBy({ top: top - 90, behavior: 'smooth' });
+			if (top - off >= 0) return;
+			window.scrollBy({ top: top - off, behavior: 'smooth' });
 		}
 	});
 })();
