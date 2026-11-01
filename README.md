@@ -23,5 +23,5 @@
 ## 埋め込み
 
 ```html
-<iframe src="https://kikichanprog.github.io/fundraising-game/" width="100%" height="760" style="border:0;max-width:100%;border-radius:14px" loading="lazy" title="ファンドレイジング・チャレンジ（ゲーム）"></iframe>
+<iframe src="https://publicactionoffice.github.io/fundraising-game/" width="100%" height="760" style="border:0;max-width:100%;border-radius:14px" loading="lazy" title="ファンドレイジング・チャレンジ（ゲーム）"></iframe>
 ```
