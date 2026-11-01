@@ -716,6 +716,7 @@
 		var rc = received * S.costRatio;
 		var net = received - fee - rc;
 		S.success = success;
+		S.received = received > 0;
 		S.enough = received > 0 && net >= p.cost;
 		var main = frame(5);
 		heading(main, '結果発表', success ? '🎉 目標達成！ プロジェクト成立！' : (S.plan === 'aon' ? '目標に届かず、今回は不成立…' : '目標には届かなかったけれど…'));
@@ -743,10 +744,11 @@
 	function afterScreen() {
 		var p = S.p;
 		var main = frame(6);
-		heading(main, '⑦ お礼と報告', S.success ? '終了後、支援者にどう向き合う？' : '終了後、応援してくれた人にどうする？');
+		heading(main, '⑦ お礼と報告', S.received ? '終了後、支援者にどう向き合う？' : '終了後、応援してくれた人にどうする？');
 		main.appendChild(talk('jozenji', 'クラファンは、終わってからが本番とも言われます。支援してくれた人は、あなたの活動の<strong>仲間</strong>。次につながる向き合い方を選んでください。'));
-		var choices = S.success ? [
-			{ label: 'お礼を伝え、リターンを約束どおり届ける。完成後は「' + p.report + '」を写真つきで活動報告する', g: 'best', fx: { shin: 10 },
+		var choices = S.received ? [
+			{ label: S.success ? 'お礼を伝え、リターンを約束どおり届ける。完成後は「' + p.report + '」を写真つきで活動報告する' :
+				'お礼を伝え、リターンを約束どおり届ける。足りない分をどう補うか（自己資金や助成金など）と、進み具合を活動報告で伝える', g: 'best', fx: { shin: 10 },
 				fb: 'お礼・お届け・活動報告まで続けると、支援者は「また応援したい」と感じます。写真に人が写るときは、本人（子どもなら保護者）の了解をとるなど、配慮も忘れずに。' },
 			{ label: 'お礼のメッセージを一斉に1回送る', g: 'good', fx: { shin: 3 },
 				fb: 'お礼は大切。その後の活動報告で「あなたの支援でこうなりました」と伝えると、つながりが続きます。' },
@@ -799,7 +801,8 @@
 		main.appendChild(h('h3', 'sub', '今回の学び'));
 		main.appendChild(ul);
 		main.appendChild(talk('date', (S.success ?
-			'おめでとう！ でも、いちばんすごいのは、<strong>「やってみたい」を形にしようと一歩踏み出したこと</strong>です。' :
+			'おめでとう！ でも、いちばんすごいのは、<strong>「やってみたい」を形にしようと一歩踏み出したこと</strong>です。' : S.received ?
+			'目標には届かなかったけれど、<strong>' + S.supporters + '人</strong>の応援で、プロジェクトは一歩前に進みました。足りない分は、助成金や継続寄付など別の方法と組み合わせる道もあります。' :
 			'今回は届かなかったけれど、応援してくれた<strong>' + S.supporters + '人</strong>は、もうあなたの仲間です。ふりかえって、もう一度挑戦すればいい。') +
 			'<br>現実のファンドレイジングも、今日学んだことを一つずつ試せば、きっと応援してくれる人に出会えます。あなたの挑戦を、私たちも応援しています。', 'talk--final'));
 		main.appendChild(h('div', 'todo-box',
