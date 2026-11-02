@@ -329,7 +329,7 @@
 			'<p class="cover__time">所要時間：約5分　' + (best ? '／ あなたのベスト：' + esc(best) + '点' : '') + '</p>';
 		t.appendChild(h('p', 'cover__guide', '私たちが案内いたします'));
 		var team = h('div', 'cover__team');
-		Object.keys(STAFF).forEach(function (k) { team.insertAdjacentHTML('beforeend', '<figure><img src="' + STAFF[k].img + '" alt="" width="56" height="56"><figcaption>' + STAFF[k].name.split(' ')[0] + '<small>' + STAFF[k].role + '</small></figcaption></figure>'); });
+		Object.keys(STAFF).forEach(function (k) { team.insertAdjacentHTML('beforeend', '<figure><img src="' + STAFF[k].img + '" alt="" width="56" height="56"><figcaption>' + STAFF[k].name.split(' ')[0] + '</figcaption></figure>'); });
 		t.appendChild(team);
 		var go = nextBtn(projectScreen, 'はじめる');
 		go.classList.add('btn--big');
