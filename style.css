@@ -70,8 +70,8 @@ strong { color: var(--brand); }
 .cover__guide { position: relative; display: inline-block; margin: 4px auto 12px; padding: 6px 18px; background: var(--surface); border: 2px solid var(--sun); border-radius: 999px; color: var(--heart-deep); font-weight: 700; font-size: .95rem; box-shadow: var(--shadow); }
 .cover__guide::after { content: ""; position: absolute; left: 50%; bottom: -9px; width: 14px; height: 14px; background: var(--surface); border-right: 2px solid var(--sun); border-bottom: 2px solid var(--sun); transform: translateX(-50%) rotate(45deg); }
 .cover__team { display: flex; justify-content: center; gap: 12px; margin: 0 0 18px; }
-.cover__team figure { margin: 0; width: 60px; text-align: center; font-size: .8rem; line-height: 1.3; }
-.cover__team img { width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 4px; border: 3px solid #fff; box-shadow: var(--shadow); }
+.cover__team figure { margin: 0; width: 60px; min-width: 0; text-align: center; font-size: .8rem; line-height: 1.3; }
+.cover__team img { width: 56px; max-width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%; margin: 0 auto 4px; border: 3px solid #fff; box-shadow: var(--shadow); }
 
 /* ===== HUD ===== */
 .hud { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 10px 12px; margin-bottom: 16px; }
